@@ -8,19 +8,56 @@
     xmlns:canvas="using:Microsoft.Graphics.Canvas.UI.Xaml"
     mc:Ignorable="d">
 
-    <StackPanel Orientation="Vertical" HorizontalAlignment="Center" VerticalAlignment="Center">
-        <canvas:CanvasControl x:Name="CanvasControl" Draw="CanvasControl_Draw" Width="10" Height="10" CreateResources="CanvasControl_CreateResources"/>
-        <Grid x:Name="grid" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="10">
+    <StackPanel Orientation="Vertical" HorizontalAlignment="Center" VerticalAlignment="Center" Spacing="20">
+        <canvas:CanvasControl x:Name="CanvasControl" Draw="CanvasControl_Draw" Width="1" Height="1" CreateResources="CanvasControl_CreateResources"/>
+        <Grid x:Name="TextGrid" HorizontalAlignment="Left" VerticalAlignment="Top">
             <Grid.ColumnDefinitions>
-                <ColumnDefinition MinWidth="100" Width="Auto"/>
-                <ColumnDefinition MinWidth="100" Width="Auto"/>
-                <ColumnDefinition MinWidth="100" Width="Auto"/>
-                <ColumnDefinition MinWidth="100" Width="Auto"/>
+                <ColumnDefinition MinWidth="100" Width="*"/>
+                <ColumnDefinition MinWidth="100" Width="*"/>
+                <ColumnDefinition MinWidth="100" Width="*"/>
+                <ColumnDefinition MinWidth="100" Width="*"/>
             </Grid.ColumnDefinitions>
             <Grid.RowDefinitions>
-                <RowDefinition MinHeight="100" Height="Auto"/>
-                <RowDefinition MinHeight="100" Height="Auto"/>
+                <RowDefinition MinHeight="40" Height="*"/>
+                <RowDefinition MinHeight="20" Height="*"/>
+                <RowDefinition MinHeight="20" Height="*"/>
+                <RowDefinition MinHeight="20" Height="*"/>
+                <RowDefinition MinHeight="20" Height="*"/>
             </Grid.RowDefinitions>
+            <TextBlock x:Name="DisplayTitle" Text="Display:  " Grid.Column="0" Grid.Row="0" Width="100" Height="40" VerticalAlignment="Top"/>
+            <TextBlock x:Name="DisplayName" Text="N/A" Grid.Column="2" Grid.Row="0" Grid.ColumnSpan="1" Width="100" Height="40" VerticalAlignment="Top" HorizontalAlignment="Left"/>
+            <Button x:Name="Refresh" Content="Refresh" Click="Refresh_Click" Grid.Column="3" Grid.Row="0"/>
+            <TextBlock Text="X" Grid.Column="1" Grid.Row="1" Width="100"/>
+            <TextBlock Text="Y" Grid.Column="2" Grid.Row="1" Width="100"/>
+            <TextBlock Text="Z" Grid.Column="3" Grid.Row="1" Width="100"/>
+            <TextBlock Text="Red:" Grid.Column="0" Grid.Row="2" Width="100"/>
+            <TextBlock Text="Green:" Grid.Column="0" Grid.Row="3" Width="100"/>
+            <TextBlock Text="Blue:" Grid.Column="0" Grid.Row="4" Width="100"/>
+
+            <TextBlock x:Name="Red_X" Text="-" Height="20" Width="100" Grid.Column="1" Grid.Row="2"/>
+            <TextBlock x:Name="Red_Y" Text="-" Height="20" Width="100" Grid.Column="1" Grid.Row="3"/>
+            <TextBlock x:Name="Red_Z" Text="-" Height="20" Width="100" Grid.Column="1" Grid.Row="4"/>
+            <TextBlock x:Name="Green_X" Text="-" Height="20" Width="100" Grid.Column="2" Grid.Row="2"/>
+            <TextBlock x:Name="Green_Y" Text="-" Height="20" Width="100" Grid.Column="2" Grid.Row="3"/>
+            <TextBlock x:Name="Green_Z" Text="-" Height="20" Width="100" Grid.Column="2" Grid.Row="4"/>
+            <TextBlock x:Name="Blue_X" Text="-" Height="20" Width="100" Grid.Column="3" Grid.Row="2"/>
+            <TextBlock x:Name="Blue_Y" Text="-" Height="20" Width="100" Grid.Column="3" Grid.Row="3"/>
+            <TextBlock x:Name="Blue_Z" Text="-" Height="20" Width="100" Grid.Column="3" Grid.Row="4"/>
+        </Grid>
+        <Grid x:Name="grid" HorizontalAlignment="Center" VerticalAlignment="Center">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition MinWidth="100" Width="*"/>
+                <ColumnDefinition MinWidth="100" Width="*"/>
+                <ColumnDefinition MinWidth="100" Width="*"/>
+                <ColumnDefinition MinWidth="100" Width="*"/>
+                <ColumnDefinition MinWidth="100" Width="*"/>
+            </Grid.ColumnDefinitions>
+            <Grid.RowDefinitions>
+                <RowDefinition MinHeight="100" Height="*"/>
+                <RowDefinition MinHeight="100" Height="*"/>
+            </Grid.RowDefinitions>
+            <TextBlock Text="sRGB Primaries: " HorizontalAlignment="Right" VerticalAlignment="Center" Grid.Row="0" Grid.Column="0" Margin="0,0,10,0"/>
+            <TextBlock Text="Display Primaries: " HorizontalAlignment="Right" VerticalAlignment="Center" Grid.Row="1" Grid.Column="0" Margin="0,0,10,0"/>
         </Grid>
     </StackPanel>
 </Page>

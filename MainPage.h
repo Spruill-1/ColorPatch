@@ -14,10 +14,10 @@ static float ColorList[PanelCount][3] =
     {0.f,1.f,0.f},
     {0.f,0.f,1.f},
     {1.f,1.f,1.f},
-    {1.f,0.f,0.f},
-    {0.f,1.f,0.f},
-    {0.f,0.f,1.f},
-    {1.f,1.f,1.f}
+    {0.f,0.f,0.f},
+    {0.f,200.0f,0.f},
+    {0.f,0.f,0.f},
+    {0.f,0.f,0.f}
 };
 
 
@@ -37,6 +37,7 @@ namespace winrt::ColorPatch::implementation
         void CanvasControl_Draw(winrt::Microsoft::Graphics::Canvas::UI::Xaml::CanvasControl const& sender, winrt::Microsoft::Graphics::Canvas::UI::Xaml::CanvasDrawEventArgs const& args);
         void SizeChanged(winrt::Windows::Foundation::IInspectable const& sender, winrt::Windows::UI::Xaml::SizeChangedEventArgs const& e);
         void CanvasControl_CreateResources(winrt::Microsoft::Graphics::Canvas::UI::Xaml::CanvasControl const& sender, winrt::Microsoft::Graphics::Canvas::UI::CanvasCreateResourcesEventArgs const& args);
+        void Refresh_Click(winrt::Windows::Foundation::IInspectable const& sender, winrt::Windows::UI::Xaml::RoutedEventArgs const& e);
 
         CanvasDevice m_device;
         std::vector<::ColorPanel> m_patches;

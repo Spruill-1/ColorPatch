@@ -36,7 +36,7 @@ void Patch::RecreateIfNeeded(winrt::Windows::Foundation::Size size)
     else if (recreate)
     {
         m_swapchain = CanvasSwapChain(
-            m_device,
+            m_device.GetSharedDevice(),
             size.Width, size.Height,
             CanvasControl().Dpi(),
             DirectXPixelFormat::R16G16B16A16Float,
