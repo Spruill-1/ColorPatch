@@ -2,14 +2,17 @@
 #include "MainPage.h"
 #include "MainPage.g.cpp"
 
-using namespace winrt;
-using namespace Windows::UI::Xaml;
-using namespace winrt::Microsoft::Graphics::Canvas;
-using namespace winrt::Windows::Graphics::DirectX;
+namespace winrt
+{
+    using namespace Windows::UI::Xaml;
+    using namespace winrt::Microsoft::Graphics::Canvas;
+    using namespace winrt::Windows::Graphics::DirectX;
+    using namespace winrt::Windows::Graphics::Display;
+}
 
 namespace winrt::ColorPatch::implementation
 {
-    MainPage::MainPage() : m_device(nullptr)
+    MainPage::MainPage() : m_device(nullptr), m_dispInfo(nullptr)
     {
         InitializeComponent();
 
@@ -24,6 +27,8 @@ namespace winrt::ColorPatch::implementation
             grid().SetRow(newPatch, i / (grid().ColumnDefinitions().Size()-1));
             m_patches.push_back({ nullptr, newPatch, ColorList[i][0], ColorList[i][1], ColorList[i][2] });
         }
+
+        Refresh_Click(nullptr, nullptr);
     }
 }
 
@@ -63,5 +68,15 @@ void winrt::ColorPatch::implementation::MainPage::CanvasControl_CreateResources(
 
 void winrt::ColorPatch::implementation::MainPage::Refresh_Click(winrt::Windows::Foundation::IInspectable const& sender, winrt::Windows::UI::Xaml::RoutedEventArgs const& e)
 {
+    m_dispInfo = DisplayInformation::GetForCurrentView();
+    auto acInfo = m_dispInfo.GetAdvancedColorInfo();
 
+    Red_X().Text(std::to_wstring(acInfo.RedPrimary().X));
+    Red_Y().Text(std::to_wstring(acInfo.RedPrimary().Y));
+
+    Green_X().Text(std::to_wstring(acInfo.GreenPrimary().X));
+    Green_Y().Text(std::to_wstring(acInfo.GreenPrimary().Y));
+
+    Blue_X().Text(std::to_wstring(acInfo.BluePrimary().X));
+    Blue_Y().Text(std::to_wstring(acInfo.BluePrimary().Y));
 }

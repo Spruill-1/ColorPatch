@@ -35,13 +35,13 @@
             <TextBlock Text="Blue:" Grid.Column="0" Grid.Row="4" Width="100"/>
 
             <TextBlock x:Name="Red_X" Text="-" Height="20" Width="100" Grid.Column="1" Grid.Row="2"/>
-            <TextBlock x:Name="Red_Y" Text="-" Height="20" Width="100" Grid.Column="1" Grid.Row="3"/>
-            <TextBlock x:Name="Red_Z" Text="-" Height="20" Width="100" Grid.Column="1" Grid.Row="4"/>
-            <TextBlock x:Name="Green_X" Text="-" Height="20" Width="100" Grid.Column="2" Grid.Row="2"/>
+            <TextBlock x:Name="Red_Y" Text="-" Height="20" Width="100" Grid.Column="2" Grid.Row="2"/>
+            <TextBlock x:Name="Red_Z" Text="-" Height="20" Width="100" Grid.Column="3" Grid.Row="2"/>
+            <TextBlock x:Name="Green_X" Text="-" Height="20" Width="100" Grid.Column="1" Grid.Row="3"/>
             <TextBlock x:Name="Green_Y" Text="-" Height="20" Width="100" Grid.Column="2" Grid.Row="3"/>
-            <TextBlock x:Name="Green_Z" Text="-" Height="20" Width="100" Grid.Column="2" Grid.Row="4"/>
-            <TextBlock x:Name="Blue_X" Text="-" Height="20" Width="100" Grid.Column="3" Grid.Row="2"/>
-            <TextBlock x:Name="Blue_Y" Text="-" Height="20" Width="100" Grid.Column="3" Grid.Row="3"/>
+            <TextBlock x:Name="Green_Z" Text="-" Height="20" Width="100" Grid.Column="3" Grid.Row="3"/>
+            <TextBlock x:Name="Blue_X" Text="-" Height="20" Width="100" Grid.Column="1" Grid.Row="4"/>
+            <TextBlock x:Name="Blue_Y" Text="-" Height="20" Width="100" Grid.Column="2" Grid.Row="4"/>
             <TextBlock x:Name="Blue_Z" Text="-" Height="20" Width="100" Grid.Column="3" Grid.Row="4"/>
         </Grid>
         <Grid x:Name="grid" HorizontalAlignment="Center" VerticalAlignment="Center">

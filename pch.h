@@ -21,7 +21,9 @@
 #include <winrt/Microsoft.Graphics.Canvas.UI.h>
 #include <winrt/Microsoft.Graphics.Canvas.UI.Xaml.h>
 #include <winrt/Microsoft.Graphics.Canvas.Brushes.h>
+#include <winrt/Microsoft.Graphics.Canvas.Effects.h>
 
 #include <winrt/Windows.Graphics.Display.h>
+#include <winrt/Windows.Graphics.Display.Core.h>
 
 #include "Patch.h"

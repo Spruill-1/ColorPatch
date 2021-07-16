@@ -17,7 +17,7 @@ namespace winrt
 
 Patch::Patch(
     winrt::CanvasDevice device) : 
-    m_swapchain(nullptr), m_brush(nullptr)
+    m_swapchain(nullptr), m_sourceEffect(nullptr)//, m_brush(nullptr)
 {
     m_device = device.GetSharedDevice();
 }
@@ -36,7 +36,8 @@ void Patch::RecreateIfNeeded(winrt::Windows::Foundation::Size size)
     if (destroy)
     {
         m_swapchain = nullptr;
-        m_brush = nullptr;
+        //m_brush = nullptr;
+        m_sourceEffect = nullptr;
 
         return;
     }
@@ -76,9 +77,19 @@ void Patch::RecreateIfNeeded(winrt::Windows::Foundation::Size size)
         m_width = size.Width;
     }
 
+    /*
     if (!m_brush)
     {
         m_brush = winrt::CanvasSolidColorBrush::CreateHdr(m_device, { m_red, m_green, m_blue, 1.0f });
+    }
+    */
+
+    if (!m_sourceEffect)
+    {
+        m_sourceEffect = winrt::Effects::ColorSourceEffect();
+        winrt::Windows::UI::Color custom({ (uint8_t)(m_green*255 > 255 ? 255 : m_green * 255), (uint8_t)(m_red * 255 > 255 ? 255 : m_red * 255), (uint8_t)(m_blue * 255 > 255 ? 255 : m_blue * 255), 255 });
+        m_sourceEffect.Color(custom);
+        m_sourceEffect.ColorHdr({ m_red, m_green, m_blue, 1.0f });
     }
 }
 
@@ -90,7 +101,7 @@ void Patch::Draw(winrt::Windows::Foundation::Size size)
 
     auto ds = m_swapchain.CreateDrawingSession(winrt::Windows::UI::Colors::AliceBlue());
 
-    ds.FillRectangle(0, 0, m_width, m_height, m_brush);
+    ds.DrawImage(m_sourceEffect);
 
     m_swapchain.Present();
 }
@@ -106,7 +117,14 @@ void Patch::SetColors(float red, float green, float blue)
     m_green = green;
     m_blue = blue;
 
-    if (m_brush) m_brush.ColorHdr({ m_red, m_green, m_blue, 1.0f });
+    //if (m_brush) m_brush.ColorHdr({ m_red, m_green, m_blue, 1.0f });
+
+    if (m_sourceEffect) 
+    {
+        winrt::Windows::UI::Color custom({ (uint8_t)(m_green * 255 > 255 ? 255 : m_green * 255), (uint8_t)(m_red * 255 > 255 ? 255 : m_red * 255), (uint8_t)(m_blue * 255 > 255 ? 255 : m_blue * 255), 255 });
+        m_sourceEffect.Color(custom);
+        m_sourceEffect.ColorHdr({ m_red, m_green, m_blue, 1.0f });
+    }
 
     Draw(winrt::Size(m_width, m_height));
 }

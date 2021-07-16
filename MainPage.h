@@ -2,7 +2,11 @@
 
 #include "MainPage.g.h"
 
-using namespace winrt::Microsoft::Graphics::Canvas;
+namespace winrt
+{
+    using namespace winrt::Microsoft::Graphics::Canvas;
+    using namespace winrt::Windows::Graphics::Display;
+}
 
 static const UINT DefaultWidth = 300, DefaultHeight = 300;
 
@@ -16,10 +20,9 @@ static float ColorList[PanelCount][3] =
     {1.f,1.f,1.f},
     {0.f,1.1f,0.f},
     {0.f,1.2f,0.f},
-    {0.f,1.3f,0.f},
-    {0.f,1.4f,0.f}
+    {0.f,2.3f,0.f},
+    {0.f,6.4f,0.f}
 };
-
 
 struct ColorPanel
 {
@@ -39,7 +42,8 @@ namespace winrt::ColorPatch::implementation
         void CanvasControl_CreateResources(winrt::Microsoft::Graphics::Canvas::UI::Xaml::CanvasControl const& sender, winrt::Microsoft::Graphics::Canvas::UI::CanvasCreateResourcesEventArgs const& args);
         void Refresh_Click(winrt::Windows::Foundation::IInspectable const& sender, winrt::Windows::UI::Xaml::RoutedEventArgs const& e);
 
-        CanvasDevice m_device;
+        winrt::DisplayInformation m_dispInfo;
+        winrt::CanvasDevice m_device;
         std::vector<::ColorPanel> m_patches;
     };
 }
