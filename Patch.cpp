@@ -1,15 +1,22 @@
 #include "pch.h"
+#include <Microsoft.Graphics.Canvas.native.h>
 
-using namespace winrt;
-using namespace Windows::UI::Xaml;
-using namespace winrt::Windows::Foundation;
-using namespace winrt::Microsoft::Graphics::Canvas;
-using namespace winrt::Microsoft::Graphics::Canvas::Brushes;
-using namespace winrt::Microsoft::Graphics::Canvas::UI::Xaml;
-using namespace winrt::Windows::Graphics::DirectX;
+namespace interop
+{
+    using namespace ABI::Microsoft::Graphics::Canvas;
+}
+namespace winrt
+{
+    using namespace winrt::Windows::UI::Xaml;
+    using namespace winrt::Windows::Foundation;
+    using namespace winrt::Microsoft::Graphics::Canvas;
+    using namespace winrt::Microsoft::Graphics::Canvas::Brushes;
+    using namespace winrt::Microsoft::Graphics::Canvas::UI::Xaml;
+    using namespace winrt::Windows::Graphics::DirectX;
+}
 
 Patch::Patch(
-    CanvasDevice device) : 
+    winrt::CanvasDevice device) : 
     m_swapchain(nullptr), m_brush(nullptr)
 {
     m_device = device.GetSharedDevice();
@@ -35,21 +42,35 @@ void Patch::RecreateIfNeeded(winrt::Windows::Foundation::Size size)
     }
     else if (recreate)
     {
-        m_swapchain = CanvasSwapChain(
+        m_swapchain = winrt::CanvasSwapChain(
             m_device.GetSharedDevice(),
             size.Width, size.Height,
-            CanvasControl().Dpi(),
-            DirectXPixelFormat::R16G16B16A16Float,
+            winrt::CanvasControl().Dpi(),
+            winrt::DirectXPixelFormat::R16G16B16A16Float,
             2,
-            CanvasAlphaMode::Ignore
+            winrt::CanvasAlphaMode::Ignore
         );
+        
+        // Get a handle to the underlying swapchain resource
+        {
+            winrt::com_ptr<IDXGISwapChain1> nativeSwapchain = nullptr;
+            auto nativeWrapper = m_swapchain.as<interop::ICanvasResourceWrapperNative>();
+            winrt::check_hresult(nativeWrapper->GetNativeResource(nullptr, 0, IID_PPV_ARGS(&nativeSwapchain)));
+            auto nativeSwapchain3 = nativeSwapchain.as<IDXGISwapChain3>();
+
+            // Check the swapchain's color space support - scRGB is required for this app
+            UINT colorSpaceSupport = 0;
+            winrt::check_hresult(nativeSwapchain3->CheckColorSpaceSupport(DXGI_COLOR_SPACE_RGB_FULL_G10_NONE_P709, &colorSpaceSupport));
+            winrt::check_bool(colorSpaceSupport & DXGI_SWAP_CHAIN_COLOR_SPACE_SUPPORT_FLAG_PRESENT);
+            winrt::check_hresult(nativeSwapchain3->SetColorSpace1(DXGI_COLOR_SPACE_RGB_FULL_G10_NONE_P709));
+        }
 
         m_height = size.Height;
         m_width = size.Width;
     }
     else if (resize)
     {
-        m_swapchain.ResizeBuffers(size.Width, size.Width, CanvasControl().Dpi());
+        m_swapchain.ResizeBuffers(size.Width, size.Width, winrt::CanvasControl().Dpi());
 
         m_height = size.Height;
         m_width = size.Width;
@@ -57,7 +78,7 @@ void Patch::RecreateIfNeeded(winrt::Windows::Foundation::Size size)
 
     if (!m_brush)
     {
-        m_brush = CanvasSolidColorBrush::CreateHdr(m_device, { m_red, m_green, m_blue, 1.0f });
+        m_brush = winrt::CanvasSolidColorBrush::CreateHdr(m_device, { m_red, m_green, m_blue, 1.0f });
     }
 }
 
@@ -87,5 +108,5 @@ void Patch::SetColors(float red, float green, float blue)
 
     if (m_brush) m_brush.ColorHdr({ m_red, m_green, m_blue, 1.0f });
 
-    Draw(Size(m_width, m_height));
+    Draw(winrt::Size(m_width, m_height));
 }
