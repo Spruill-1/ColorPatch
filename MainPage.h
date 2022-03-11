@@ -18,10 +18,10 @@ static float ColorList[PanelCount][3] =
     {0.f,1.f,0.f},
     {0.f,0.f,1.f},
     {1.f,1.f,1.f},
-    {0.f,1.1f,0.f},
-    {0.f,1.2f,0.f},
-    {0.f,2.3f,0.f},
-    {0.f,6.4f,0.f}
+    {100.f,0.f,0.f},
+    {0.f,100.f,0.f},
+    {0.f,0.f,100.f},
+    {5.f,5.f,5.f}
 };
 
 struct ColorPanel

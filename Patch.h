@@ -18,6 +18,7 @@ private:
     winrt::Microsoft::Graphics::Canvas::CanvasDevice m_device;
     //winrt::Microsoft::Graphics::Canvas::Brushes::CanvasSolidColorBrush m_brush;
     winrt::Microsoft::Graphics::Canvas::Effects::ColorSourceEffect m_sourceEffect;
+    winrt::Microsoft::Graphics::Canvas::Effects::ColorMatrixEffect m_matrixEffect;
     float m_red = 0.f, m_green = 0.f, m_blue = 0.f;
     float m_width = 0.f, m_height = 0.f;
 };

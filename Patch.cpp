@@ -17,7 +17,7 @@ namespace winrt
 
 Patch::Patch(
     winrt::CanvasDevice device) : 
-    m_swapchain(nullptr), m_sourceEffect(nullptr)//, m_brush(nullptr)
+    m_swapchain(nullptr), m_sourceEffect(nullptr), m_matrixEffect(nullptr)//, m_brush(nullptr)
 {
     m_device = device.GetSharedDevice();
 }
@@ -38,6 +38,7 @@ void Patch::RecreateIfNeeded(winrt::Windows::Foundation::Size size)
         m_swapchain = nullptr;
         //m_brush = nullptr;
         m_sourceEffect = nullptr;
+        m_matrixEffect = nullptr;
 
         return;
     }
@@ -87,9 +88,22 @@ void Patch::RecreateIfNeeded(winrt::Windows::Foundation::Size size)
     if (!m_sourceEffect)
     {
         m_sourceEffect = winrt::Effects::ColorSourceEffect();
-        winrt::Windows::UI::Color custom({ (uint8_t)(m_green*255 > 255 ? 255 : m_green * 255), (uint8_t)(m_red * 255 > 255 ? 255 : m_red * 255), (uint8_t)(m_blue * 255 > 255 ? 255 : m_blue * 255), 255 });
-        m_sourceEffect.Color(custom);
-        m_sourceEffect.ColorHdr({ m_red, m_green, m_blue, 1.0f });
+        m_sourceEffect.ColorHdr({ 1.f, 1.f, 1.f, 1.f });
+    }
+
+    if (!m_matrixEffect)
+    {
+        m_matrixEffect = winrt::Effects::ColorMatrixEffect();
+
+        winrt::Effects::Matrix5x4 mat{ 0 };
+        mat.M11 = m_red;
+        mat.M22 = m_green;
+        mat.M33 = m_blue;
+        mat.M44 = 1.f;
+        m_matrixEffect.ColorMatrix(mat);
+        m_matrixEffect.ClampOutput(false);
+
+        m_matrixEffect.Source(m_sourceEffect);
     }
 }
 
@@ -101,7 +115,7 @@ void Patch::Draw(winrt::Windows::Foundation::Size size)
 
     auto ds = m_swapchain.CreateDrawingSession(winrt::Windows::UI::Colors::AliceBlue());
 
-    ds.DrawImage(m_sourceEffect);
+    ds.DrawImage(m_matrixEffect);
 
     m_swapchain.Present();
 }
@@ -121,9 +135,13 @@ void Patch::SetColors(float red, float green, float blue)
 
     if (m_sourceEffect) 
     {
-        winrt::Windows::UI::Color custom({ (uint8_t)(m_green * 255 > 255 ? 255 : m_green * 255), (uint8_t)(m_red * 255 > 255 ? 255 : m_red * 255), (uint8_t)(m_blue * 255 > 255 ? 255 : m_blue * 255), 255 });
-        m_sourceEffect.Color(custom);
-        m_sourceEffect.ColorHdr({ m_red, m_green, m_blue, 1.0f });
+        winrt::Effects::Matrix5x4 mat{ 0 };
+        mat.M11 = m_red;
+        mat.M22 = m_green;
+        mat.M33 = m_blue;
+        mat.M44 = 1.f;
+        m_matrixEffect.ColorMatrix(mat);
+        m_matrixEffect.ClampOutput(false);
     }
 
     Draw(winrt::Size(m_width, m_height));
